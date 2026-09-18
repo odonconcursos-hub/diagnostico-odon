@@ -1,0 +1,681 @@
+<title>Diagnóstico Odon</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --navy:#0E0740;
+  --navy-soft:#54507A;
+  --orange:#FE5000;
+  --orange-dark:#D93F00;
+  --lilac:#F1EEFA;
+  --lilac-deep:#E4DEF5;
+  --white:#FFFFFF;
+  --line:#DAD3EE;
+  --shadow: 0 10px 30px -12px rgba(14,7,64,0.25);
+  --radius: 20px;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--lilac);
+  color:var(--navy);
+  font-family:'Karla',system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{
+  font-family:'Fraunces',Georgia,serif;
+  text-wrap:balance;
+  letter-spacing:-0.01em;
+}
+.app{
+  max-width:480px;
+  margin:0 auto;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:var(--lilac);
+  position:relative;
+}
+.screen{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  padding:28px 22px 32px;
+  animation:fadeIn .32s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(6px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ---------- Top bar / progress ---------- */
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:16px 22px 0;
+  max-width:480px;
+  margin:0 auto;
+  width:100%;
+}
+.brand{
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  font-size:15px;
+  color:var(--navy);
+  white-space:nowrap;
+}
+.brand b{color:var(--orange);}
+.progress-track{
+  flex:1;
+  height:8px;
+  background:var(--lilac-deep);
+  border-radius:99px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--orange),var(--orange-dark));
+  border-radius:99px;
+  transition:width .35s ease;
+}
+.progress-label{
+  font-size:12px;
+  font-weight:700;
+  color:var(--navy-soft);
+  white-space:nowrap;
+}
+
+/* ---------- Capture ---------- */
+.hero-emoji{font-size:40px; line-height:1;}
+.headline{font-size:26px; font-weight:600; margin:14px 0 6px; color:var(--navy);}
+.subline{font-size:15px; color:var(--navy-soft); margin:0 0 26px; line-height:1.5;}
+.field{margin-bottom:16px;}
+.field label{
+  display:block; font-size:13px; font-weight:700; color:var(--navy);
+  margin-bottom:6px; letter-spacing:.02em;
+}
+.field input{
+  width:100%;
+  padding:15px 16px;
+  border-radius:14px;
+  border:1.5px solid var(--line);
+  background:var(--white);
+  font-size:16px;
+  font-family:'Karla',sans-serif;
+  color:var(--navy);
+  outline:none;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.field input:focus{
+  border-color:var(--orange);
+  box-shadow:0 0 0 4px rgba(254,80,0,0.12);
+}
+.field .err{
+  font-size:12.5px; color:var(--orange-dark); margin-top:5px; min-height:15px; font-weight:600;
+}
+.spacer{flex:1;}
+.btn{
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%;
+  padding:17px 20px;
+  border-radius:16px;
+  border:none;
+  font-family:'Karla',sans-serif;
+  font-size:16.5px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, opacity .15s ease;
+}
+.btn:active{transform:scale(0.98);}
+.btn-primary{
+  background:var(--orange);
+  color:var(--white);
+  box-shadow:0 10px 22px -8px rgba(254,80,0,0.55);
+}
+.btn-primary:disabled{opacity:.45; box-shadow:none; cursor:not-allowed;}
+.btn-whatsapp{
+  background:#1FAA57;
+  color:var(--white);
+  box-shadow:0 10px 22px -8px rgba(31,170,87,0.5);
+}
+.foot-note{
+  text-align:center; font-size:12px; color:var(--navy-soft); margin-top:14px;
+}
+
+/* ---------- Question ---------- */
+.q-kicker{
+  font-size:12.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--orange-dark); margin-bottom:10px;
+}
+.q-text{font-size:22px; font-weight:600; margin:0 0 24px; color:var(--navy); line-height:1.3;}
+.options{display:flex; flex-direction:column; gap:12px;}
+.option{
+  text-align:left;
+  width:100%;
+  padding:16px 18px;
+  border-radius:16px;
+  border:1.5px solid var(--line);
+  background:var(--white);
+  font-family:'Karla',sans-serif;
+  font-size:15.5px;
+  font-weight:600;
+  color:var(--navy);
+  cursor:pointer;
+  transition:border-color .12s ease, background .12s ease, transform .1s ease;
+  line-height:1.4;
+}
+.option:hover{border-color:var(--orange);}
+.option:active{transform:scale(0.985); background:var(--lilac);}
+.back-link{
+  align-self:flex-start;
+  background:none; border:none; color:var(--navy-soft); font-family:'Karla',sans-serif;
+  font-size:13.5px; font-weight:700; cursor:pointer; padding:4px 0; margin-bottom:6px;
+}
+
+/* ---------- Calculating ---------- */
+.calc-wrap{
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; text-align:center;
+}
+.spinner{
+  width:56px; height:56px; border-radius:50%;
+  border:5px solid var(--lilac-deep); border-top-color:var(--orange);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.calc-text{font-size:15px; font-weight:700; color:var(--navy-soft);}
+
+/* ---------- Result ---------- */
+.level-badge{
+  width:100%; text-align:center; padding:28px 20px 24px;
+  background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow);
+  margin-bottom:20px;
+}
+.level-emoji{font-size:46px; display:block; margin-bottom:6px;}
+.level-kicker{font-size:12.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--navy-soft); margin-bottom:4px;}
+.level-name{font-size:22px; font-weight:600; color:var(--navy); margin:0;}
+.card{
+  background:var(--white); border-radius:var(--radius); padding:22px 20px; margin-bottom:16px; box-shadow:var(--shadow);
+}
+.card h3{font-size:15px; margin:0 0 12px; color:var(--navy);}
+.card p{font-size:14.5px; line-height:1.6; color:var(--navy-soft); margin:0 0 10px;}
+.point-list{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;}
+.point-list li{
+  display:flex; gap:10px; font-size:14.5px; line-height:1.5; color:var(--navy);
+}
+.point-list li::before{content:"→"; color:var(--orange); font-weight:800; flex-shrink:0;}
+.next-step{
+  background:var(--lilac-deep); border-radius:14px; padding:16px 18px; margin-top:14px;
+}
+.next-step .tag{font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--orange-dark);}
+.next-step p{margin:6px 0 0; color:var(--navy); font-weight:600; font-size:14.5px;}
+
+.transition-block{margin:26px 0 18px;}
+.transition-block p{font-size:15px; line-height:1.65; color:var(--navy); margin:0 0 12px;}
+
+.grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:18px 0 22px;
+}
+.grid-item{
+  background:var(--white); border-radius:14px; padding:14px 12px; text-align:left; box-shadow:0 4px 14px -8px rgba(14,7,64,0.18);
+}
+.grid-item .gi-emoji{font-size:20px; display:block; margin-bottom:6px;}
+.grid-item .gi-title{font-size:13px; font-weight:800; color:var(--navy); margin-bottom:3px;}
+.grid-item .gi-desc{font-size:12px; color:var(--navy-soft); line-height:1.35;}
+
+.cta-question{font-size:16px; font-weight:600; text-align:center; margin:4px 0 16px; color:var(--navy);}
+</style>
+
+<div class="topbar" id="topbar" hidden>
+  <span class="brand">odon<b>.</b>concursos</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <span class="progress-label" id="progressLabel">1/17</span>
+</div>
+
+<div class="app" id="app"></div>
+
+<script>
+(function(){
+
+  var CONFIG = {
+    API_URL: 'https://script.google.com/macros/s/AKfycbyoGNaKqkz3i4lttwvE7FzC5KuV-5TNvdaWNBaWESNBevZ_CByoq1Bp_9205aaHBpQR_A/exec',
+    WHATSAPP_NUMBER: '5519994565534',
+    WHATSAPP_MESSAGE: 'ola vim do diagnostico e queria saber mais sobre os cursos'
+  };
+
+  var QUESTIONS = [
+    {id:'p01', dimensao:'momento_atual', texto:'Já estuda para concursos?', alternativas:[
+      {texto:'Ainda não comecei a estudar', pontos:0, tags:['inicio_jornada']},
+      {texto:'Estudo esporadicamente, sem rotina fixa', pontos:1, tags:['baixa_constancia']},
+      {texto:'Estudo com alguma regularidade, mas sem plano estruturado', pontos:2, tags:['pouca_estrategia']},
+      {texto:'Estudo de forma consistente e estruturada', pontos:3, tags:['preparacao_avancada']}
+    ]},
+    {id:'p02', dimensao:'momento_atual', texto:'Há quanto tempo?', alternativas:[
+      {texto:'Menos de 3 meses', pontos:0, tags:[]},
+      {texto:'De 3 a 12 meses', pontos:1, tags:[]},
+      {texto:'De 1 a 2 anos', pontos:2, tags:[]},
+      {texto:'Mais de 2 anos', pontos:3, tags:[]}
+    ]},
+    {id:'p03', dimensao:'momento_atual', texto:'Já prestou algum concurso?', alternativas:[
+      {texto:'Nunca prestei', pontos:0, tags:['sem_experiencia_pratica']},
+      {texto:'Já prestei 1, mas não fui bem', pontos:1, tags:['experiencia_inicial']},
+      {texto:'Já prestei mais de um, com resultados parciais', pontos:2, tags:['experiencia_intermediaria']},
+      {texto:'Já cheguei perto da aprovação ou fui bem colocado(a)', pontos:3, tags:['experiencia_avancada']}
+    ]},
+    {id:'p04', dimensao:'momento_atual', texto:'Já possui uma área/cargo em mente?', alternativas:[
+      {texto:'Ainda não sei que área/cargo quero', pontos:0, tags:['sem_clareza_objetivo']},
+      {texto:'Tenho uma ideia geral, mas não é definitiva', pontos:1, tags:['clareza_parcial']},
+      {texto:'Já escolhi a área, mas não a banca/edital específico', pontos:2, tags:['clareza_parcial']},
+      {texto:'Já sei exatamente o cargo, banca e edital que almejo', pontos:3, tags:['clareza_objetivo']}
+    ]},
+    {id:'p05', dimensao:'conhecimento_bancas', texto:'Entende como funciona edital, banca, conteúdo, classificação etc.?', alternativas:[
+      {texto:'Não, isso ainda é bem confuso pra mim', pontos:0, tags:['baixo_conhecimento_tecnico']},
+      {texto:'Entendo o básico, mas me perco nos detalhes', pontos:1, tags:['conhecimento_parcial']},
+      {texto:'Entendo bem, mas nunca precisei aplicar isso na prática', pontos:2, tags:['conhecimento_teorico']},
+      {texto:'Entendo e já uso isso pra tomar decisões de estudo', pontos:3, tags:['conhecimento_aplicado']}
+    ]},
+    {id:'p06', dimensao:'conhecimento_bancas', texto:'Sabe identificar quais matérias priorizar?', alternativas:[
+      {texto:'Não sei por onde começar a decidir isso', pontos:0, tags:['sem_priorizacao']},
+      {texto:'Tenho uma noção, mas baseada em achismo', pontos:1, tags:['priorizacao_intuitiva']},
+      {texto:'Consigo priorizar olhando editais anteriores', pontos:2, tags:['priorizacao_basica']},
+      {texto:'Priorizo cruzando incidência, peso na prova e meu domínio atual', pontos:3, tags:['priorizacao_estrategica']}
+    ]},
+    {id:'p07', dimensao:'conhecimento_bancas', texto:'Entende a diferença entre estudar antes e depois da publicação do edital?', alternativas:[
+      {texto:'Nunca pensei nessa diferença', pontos:0, tags:['sem_visao_pre_pos_edital']},
+      {texto:'Já ouvi falar, mas não sei aplicar na prática', pontos:1, tags:['conhecimento_parcial']},
+      {texto:'Entendo a lógica, mas não organizei meus estudos assim', pontos:2, tags:['conhecimento_teorico']},
+      {texto:'Já organizo minha preparação considerando as duas fases', pontos:3, tags:['conhecimento_aplicado']}
+    ]},
+    {id:'p08', dimensao:'estrategia', texto:'Como começaria a estudar se decidisse começar hoje?', alternativas:[
+      {texto:'Não saberia por onde começar', pontos:0, tags:['sem_direcionamento']},
+      {texto:'Pegaria o edital mais recente e tentaria estudar tudo', pontos:1, tags:['estrategia_generica']},
+      {texto:'Buscaria entender o que mais cai antes de montar um plano', pontos:2, tags:['estrategia_basica']},
+      {texto:'Montaria um cronograma baseado em peso das matérias e meu nível atual', pontos:3, tags:['estrategia_estruturada']}
+    ]},
+    {id:'p09', dimensao:'estrategia', texto:'Estudaria todas as matérias simultaneamente?', alternativas:[
+      {texto:'Sim, estudaria tudo ao mesmo tempo, sem critério', pontos:0, tags:['sem_priorizacao']},
+      {texto:'Tentaria, mas provavelmente perderia o foco', pontos:1, tags:['dificuldade_foco']},
+      {texto:'Alternaria entre poucas matérias por vez', pontos:2, tags:['estrategia_basica']},
+      {texto:'Definiria uma ordem clara baseada em prioridade e dificuldade', pontos:3, tags:['estrategia_estruturada']}
+    ]},
+    {id:'p10', dimensao:'estrategia', texto:'Como escolheria o que estudar primeiro?', alternativas:[
+      {texto:'Pelo que eu mais gosto ou acho mais fácil', pontos:0, tags:['escolha_por_conforto']},
+      {texto:'Pela ordem que aparece no edital', pontos:1, tags:['estrategia_generica']},
+      {texto:'Pelas matérias com mais peso na prova', pontos:2, tags:['estrategia_basica']},
+      {texto:'Cruzando peso na prova, incidência histórica da banca e meu nível atual', pontos:3, tags:['estrategia_estruturada']}
+    ]},
+    {id:'p11', dimensao:'estrategia', texto:'Como faria revisões?', alternativas:[
+      {texto:'Não costumo revisar, sigo estudando conteúdo novo', pontos:0, tags:['sem_revisao']},
+      {texto:'Releio o material de vez em quando', pontos:1, tags:['revisao_passiva']},
+      {texto:'Releio e refaço alguns exercícios', pontos:2, tags:['revisao_basica']},
+      {texto:'Tenho um sistema de revisão espaçada com base no meu desempenho', pontos:3, tags:['revisao_estruturada']}
+    ]},
+    {id:'p12', dimensao:'estrategia', texto:'Como saberia quais assuntos precisa reforçar?', alternativas:[
+      {texto:'Não saberia identificar isso sozinho(a)', pontos:0, tags:['sem_autodiagnostico']},
+      {texto:'Percebo quando erro muito sobre um tema', pontos:1, tags:['autodiagnostico_intuitivo']},
+      {texto:'Acompanho meu desempenho em questões por assunto', pontos:2, tags:['autodiagnostico_basico']},
+      {texto:'Tenho um controle de desempenho que direciona meus próximos estudos', pontos:3, tags:['autodiagnostico_estruturado']}
+    ]},
+    {id:'p13', dimensao:'execucao', texto:'Quantas horas consegue estudar?', alternativas:[
+      {texto:'Menos de 1 hora por dia', pontos:0, tags:[]},
+      {texto:'De 1 a 2 horas por dia', pontos:1, tags:[]},
+      {texto:'De 2 a 4 horas por dia', pontos:2, tags:[]},
+      {texto:'Mais de 4 horas por dia', pontos:3, tags:[]}
+    ]},
+    {id:'p14', dimensao:'execucao', texto:'Possui rotina?', alternativas:[
+      {texto:'Não, estudo quando sobra tempo', pontos:0, tags:['sem_rotina']},
+      {texto:'Tenho uma rotina, mas não sigo com regularidade', pontos:1, tags:['rotina_inconsistente']},
+      {texto:'Sigo minha rotina na maior parte dos dias', pontos:2, tags:['rotina_parcial']},
+      {texto:'Tenho uma rotina fixa que sigo consistentemente', pontos:3, tags:['rotina_estruturada']}
+    ]},
+    {id:'p15', dimensao:'execucao', texto:'Consegue manter constância?', alternativas:[
+      {texto:'Começo e paro com frequência', pontos:0, tags:['baixa_constancia']},
+      {texto:'Consigo por um tempo, mas perco o ritmo', pontos:1, tags:['constancia_intermitente']},
+      {texto:'Mantenho constância na maior parte do tempo', pontos:2, tags:['constancia_moderada']},
+      {texto:'Mantenho constância mesmo em semanas difíceis', pontos:3, tags:['alta_constancia']}
+    ]},
+    {id:'p16', dimensao:'execucao', texto:'O que costuma fazer quando não entende uma matéria?', alternativas:[
+      {texto:'Pulo o conteúdo e sigo em frente', pontos:0, tags:['evita_dificuldade']},
+      {texto:'Tento entender sozinho(a), mesmo que demore muito', pontos:1, tags:['resolucao_solitaria']},
+      {texto:'Busco vídeos ou materiais complementares', pontos:2, tags:['busca_ativa']},
+      {texto:'Busco ajuda de professor/mentor pra não perder tempo sozinho(a)', pontos:3, tags:['busca_orientacao']}
+    ]},
+    {id:'p17', dimensao:'execucao', texto:'Como acompanha sua evolução?', alternativas:[
+      {texto:'Não acompanho, só estudo', pontos:0, tags:['sem_acompanhamento']},
+      {texto:'Sinto que estou evoluindo, mas não meço isso', pontos:1, tags:['acompanhamento_intuitivo']},
+      {texto:'Faço simulados de vez em quando', pontos:2, tags:['acompanhamento_basico']},
+      {texto:'Acompanho desempenho por assunto e ajusto o plano com base nisso', pontos:3, tags:['acompanhamento_estruturado']}
+    ]}
+  ];
+
+  var LEVELS = [
+    {min:0, max:15, emoji:'🌱', nome:'Nível 1 — Você está no início da jornada',
+      paragrafos:[
+        'Você já percebeu que o concurso público pode ser uma oportunidade para sua carreira, mas ainda não possui uma estratégia estruturada de preparação.',
+        'Seu principal desafio hoje não é estudar mais. É saber por onde começar.'
+      ],
+      pontos:[
+        'Você já deu o primeiro passo: reconhecer que quer construir uma carreira via concurso.',
+        'Ainda falta um plano claro de por onde começar.',
+        'A falta de rotina pesa mais, agora, do que a falta de conhecimento.'
+      ],
+      proximoPasso:'Comece organizando um cronograma simples com as matérias de maior peso do seu edital-alvo.'
+    },
+    {min:16, max:30, emoji:'🚀', nome:'Nível 2 — Você já começou, mas ainda está construindo sua estratégia',
+      paragrafos:[
+        'Você já deu passos importantes e entende que precisa estudar, mas ainda existem lacunas na organização da sua preparação.',
+        'Você não está começando do zero. Mas ainda pode estar gastando energia em coisas que não necessariamente aumentam sua evolução.'
+      ],
+      pontos:[
+        'Você já estuda, mas ainda sem um cronograma que aproveite seu tempo ao máximo.',
+        'Falta identificar com clareza o que realmente cai nas provas que te interessam.',
+        'Revisão e acompanhamento de desempenho ainda não são um sistema — são exceção.'
+      ],
+      proximoPasso:'Estruture sua rotina com prioridades claras baseadas no edital que você quer prestar.'
+    },
+    {min:31, max:42, emoji:'🎯', nome:'Nível 3 — Você já está no caminho',
+      paragrafos:[
+        'Você já possui experiência com estudos para concurso e demonstra uma compreensão maior de como funciona uma preparação.',
+        'Agora, o desafio passa a ser transformar esforço em estratégia, identificando pontos fracos, acompanhando evolução e direcionando seu estudo para aquilo que realmente importa.'
+      ],
+      pontos:[
+        'Você já tem experiência prática e entende como concursos funcionam.',
+        'O próximo salto é transformar esforço em direção: saber exatamente onde focar.',
+        'Falta um sistema de acompanhamento que aponte seus pontos fracos com precisão.'
+      ],
+      proximoPasso:'Implemente um sistema de acompanhamento de desempenho por assunto, não só por simulado.'
+    },
+    {min:43, max:51, emoji:'🏆', nome:'Nível 4 — Preparação avançada',
+      paragrafos:[
+        'Você já possui uma boa maturidade de estudos e entende a lógica de uma preparação para concursos.',
+        'Nesse momento, pequenos ajustes podem fazer diferença: direcionamento, acompanhamento de desempenho, revisão dos pontos fracos, resolução estratégica de questões e preparação específica para cada prova.'
+      ],
+      pontos:[
+        'Sua preparação já é estruturada e consistente.',
+        'O que separa você da aprovação agora são ajustes finos, não uma reformulação.',
+        'Direcionamento específico pra banca/edital pode acelerar bastante o resultado.'
+      ],
+      proximoPasso:'Faça ajustes finos: revisão direcionada aos seus pontos fracos e simulados no formato da banca.'
+    }
+  ];
+
+  var PRODUCT_GRID = [
+    {emoji:'📚', titulo:'Conteúdo', desc:'Aulas + PDFs + materiais de apoio'},
+    {emoji:'🎯', titulo:'Planejamento', desc:'Planejamento inteligente direcionado à sua preparação'},
+    {emoji:'📝', titulo:'Questões', desc:'OdonQuestões + prática direcionada'},
+    {emoji:'👩‍🏫', titulo:'Professores', desc:'Orientação e tira-dúvidas'},
+    {emoji:'📊', titulo:'Acompanhamento', desc:'Identificação de dificuldades e direcionamento'},
+    {emoji:'⚖️', titulo:'Pós-prova', desc:'Correção e orientação sobre recursos quando aplicável'}
+  ];
+
+  var STORAGE_KEY = 'odon_diagnostico_v1';
+
+  function uuid(){
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
+      var r = Math.random()*16|0, v = c==='x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+  }
+
+  function loadState(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    }catch(e){}
+    return null;
+  }
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  var params = new URLSearchParams(window.location.search);
+  var saved = loadState();
+
+  var state = saved || {
+    screen:'capture',
+    leadId: uuid(),
+    origem: params.get('origem') || 'instagram_novo_seguidor',
+    nome:'', email:'', telefone:'',
+    qIndex:0,
+    answers:[],
+    startedSent:false,
+    result:null
+  };
+
+  function post(action, extra){
+    var payload = Object.assign({action:action, lead_id: state.leadId}, extra || {});
+    try{
+      fetch(CONFIG.API_URL, {method:'POST', body:JSON.stringify(payload)}).catch(function(){});
+    }catch(e){}
+  }
+
+  function nowIso(){ return new Date().toISOString(); }
+
+  function totalScore(){
+    return state.answers.reduce(function(sum,a){ return sum + a.pontos; }, 0);
+  }
+  function levelFor(score){
+    for (var i=0;i<LEVELS.length;i++){
+      if (score >= LEVELS[i].min && score <= LEVELS[i].max) return LEVELS[i];
+    }
+    return LEVELS[LEVELS.length-1];
+  }
+
+  var app = document.getElementById('app');
+  var topbar = document.getElementById('topbar');
+  var progressFill = document.getElementById('progressFill');
+  var progressLabel = document.getElementById('progressLabel');
+
+  function esc(s){
+    return String(s).replace(/[&<>"]/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];
+    });
+  }
+
+  function render(){
+    saveState();
+    if (state.screen === 'question' || state.screen === 'calculating'){
+      topbar.hidden = false;
+      var pct = Math.round(((state.qIndex)/QUESTIONS.length)*100);
+      progressFill.style.width = pct + '%';
+      progressLabel.textContent = Math.min(state.qIndex+1, QUESTIONS.length) + '/' + QUESTIONS.length;
+    } else {
+      topbar.hidden = true;
+    }
+
+    if (state.screen === 'capture') return renderCapture();
+    if (state.screen === 'question') return renderQuestion();
+    if (state.screen === 'calculating') return renderCalculating();
+    if (state.screen === 'result') return renderResult();
+  }
+
+  function renderCapture(){
+    app.innerHTML =
+      '<div class="screen">' +
+        '<span class="hero-emoji">🧭</span>' +
+        '<h1 class="headline">Vamos descobrir em que momento da sua jornada você está?</h1>' +
+        '<p class="subline">Leva 2 minutos e o resultado sai na hora — com um direcionamento personalizado pro seu momento.</p>' +
+        '<div class="field"><label for="f-nome">Nome completo</label>' +
+          '<input id="f-nome" type="text" autocomplete="name" placeholder="Seu nome e sobrenome" value="'+esc(state.nome)+'"></div>' +
+        '<div class="field"><label for="f-email">E-mail</label>' +
+          '<input id="f-email" type="email" autocomplete="email" placeholder="voce@email.com" value="'+esc(state.email)+'"></div>' +
+        '<div class="field"><label for="f-tel">WhatsApp</label>' +
+          '<input id="f-tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(99) 99999-9999" value="'+esc(state.telefone)+'">' +
+          '<div class="err" id="f-err"></div></div>' +
+        '<div class="spacer"></div>' +
+        '<button class="btn btn-primary" id="btnStart">Começar diagnóstico →</button>' +
+        '<p class="foot-note">Seus dados são usados só pra te enviar o resultado e falar sobre a preparação.</p>' +
+      '</div>';
+
+    var telInput = document.getElementById('f-tel');
+    telInput.addEventListener('input', function(){
+      var d = telInput.value.replace(/\D/g,'').slice(0,11);
+      var out = d;
+      if (d.length > 2) out = '('+d.slice(0,2)+') '+d.slice(2);
+      if (d.length > 7) out = '('+d.slice(0,2)+') '+d.slice(2,7)+'-'+d.slice(7);
+      telInput.value = out;
+    });
+
+    document.getElementById('btnStart').addEventListener('click', function(){
+      var nome = document.getElementById('f-nome').value.trim();
+      var email = document.getElementById('f-email').value.trim();
+      var telDigits = document.getElementById('f-tel').value.replace(/\D/g,'');
+      var err = document.getElementById('f-err');
+      err.textContent = '';
+
+      if (nome.split(/\s+/).filter(Boolean).length < 2){
+        err.textContent = 'Preencha nome e sobrenome.'; return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        err.textContent = 'Digite um e-mail válido.'; return;
+      }
+      if (telDigits.length < 10 || telDigits.length > 11){
+        err.textContent = 'Digite um WhatsApp válido com DDD.'; return;
+      }
+
+      state.nome = nome; state.email = email; state.telefone = telDigits;
+      state.screen = 'question'; state.qIndex = 0;
+      saveState();
+
+      post('create', {fields:{
+        lead_id: state.leadId,
+        origem: state.origem,
+        nome: nome,
+        email: email,
+        telefone: telDigits,
+        data_hora_captura: nowIso()
+      }});
+
+      render();
+    });
+  }
+
+  function renderQuestion(){
+    var q = QUESTIONS[state.qIndex];
+    var backBtn = state.qIndex > 0 ? '<button class="back-link" id="btnBack">← voltar</button>' : '';
+    app.innerHTML =
+      '<div class="screen">' +
+        backBtn +
+        '<div class="q-kicker">Pergunta ' + (state.qIndex+1) + ' de ' + QUESTIONS.length + '</div>' +
+        '<div class="q-text">' + esc(q.texto) + '</div>' +
+        '<div class="options" id="opts"></div>' +
+      '</div>';
+
+    if (backBtn){
+      document.getElementById('btnBack').addEventListener('click', function(){
+        state.answers.pop();
+        state.qIndex -= 1;
+        render();
+      });
+    }
+
+    var optsWrap = document.getElementById('opts');
+    q.alternativas.forEach(function(alt){
+      var b = document.createElement('button');
+      b.className = 'option';
+      b.textContent = alt.texto;
+      b.addEventListener('click', function(){
+        state.answers[state.qIndex] = {id:q.id, dimensao:q.dimensao, texto:alt.texto, pontos:alt.pontos, tags:alt.tags};
+
+        if (!state.startedSent){
+          state.startedSent = true;
+          post('update', {fields:{diagnostico_iniciado:'sim'}});
+        }
+
+        if (state.qIndex < QUESTIONS.length - 1){
+          state.qIndex += 1;
+          render();
+        } else {
+          finishDiagnostic();
+        }
+      });
+      optsWrap.appendChild(b);
+    });
+  }
+
+  function finishDiagnostic(){
+    var score = totalScore();
+    var level = levelFor(score);
+    state.result = {score:score, levelIndex: LEVELS.indexOf(level)};
+    state.screen = 'calculating';
+    render();
+
+    post('update', {fields:{
+      diagnostico_concluido:'sim',
+      data_hora_conclusao: nowIso(),
+      pontuacao_total: score,
+      nivel_resultado: level.nome,
+      respostas_detalhadas: JSON.stringify(state.answers)
+    }});
+
+    setTimeout(function(){
+      state.screen = 'result';
+      render();
+    }, 1600);
+  }
+
+  function renderCalculating(){
+    app.innerHTML =
+      '<div class="calc-wrap">' +
+        '<div class="spinner"></div>' +
+        '<div class="calc-text">Calculando seu diagnóstico…</div>' +
+      '</div>';
+  }
+
+  function renderResult(){
+    var level = LEVELS[state.result.levelIndex];
+    var pointsHtml = level.pontos.map(function(p){ return '<li>'+esc(p)+'</li>'; }).join('');
+    var gridHtml = PRODUCT_GRID.map(function(g){
+      return '<div class="grid-item"><span class="gi-emoji">'+g.emoji+'</span>' +
+        '<div class="gi-title">'+esc(g.titulo)+'</div>' +
+        '<div class="gi-desc">'+esc(g.desc)+'</div></div>';
+    }).join('');
+    var paragraphsHtml = level.paragrafos.map(function(p){ return '<p>'+esc(p)+'</p>'; }).join('');
+
+    var waText = encodeURIComponent(CONFIG.WHATSAPP_MESSAGE);
+    var waLink = 'https://wa.me/'+CONFIG.WHATSAPP_NUMBER+'?text='+waText;
+
+    app.innerHTML =
+      '<div class="screen">' +
+        '<div class="level-badge">' +
+          '<span class="level-emoji">'+level.emoji+'</span>' +
+          '<div class="level-kicker">Seu diagnóstico está pronto</div>' +
+          '<h2 class="level-name">'+esc(level.nome)+'</h2>' +
+        '</div>' +
+
+        '<div class="card">' + paragraphsHtml +
+          '<ul class="point-list">'+pointsHtml+'</ul>' +
+          '<div class="next-step"><div class="tag">Próximo passo</div><p>'+esc(level.proximoPasso)+'</p></div>' +
+        '</div>' +
+
+        '<div class="transition-block">' +
+          '<p>Agora você sabe onde está. A próxima pergunta é: como chegar até a aprovação?</p>' +
+          '<p>Você não precisa descobrir sozinho(a) o que estudar, quando estudar e como saber se está evoluindo.</p>' +
+          '<p>No Odon, você recebe um direcionamento completo pra construir sua preparação: planejamento, aulas, materiais, questões, simulados, acompanhamento dos professores, tira-dúvidas e orientação ao longo da jornada.</p>' +
+          '<p>A ideia não é você simplesmente "estudar para concurso". É ter uma preparação direcionada pra chegar à prova sabendo exatamente o que precisa fazer.</p>' +
+        '</div>' +
+
+        '<div class="grid">'+gridHtml+'</div>' +
+
+        '<p class="cta-question">Quer entender como seria essa preparação para o seu caso?</p>' +
+        '<button class="btn btn-whatsapp" id="btnWpp">💬 Falar com o time no WhatsApp</button>' +
+      '</div>';
+
+    document.getElementById('btnWpp').addEventListener('click', function(){
+      var payload = JSON.stringify({action:'update', lead_id: state.leadId, fields:{clicou_whatsapp:'sim', data_hora_clique_whatsapp: nowIso()}});
+      var sent = false;
+      try{
+        if (navigator.sendBeacon){
+          sent = navigator.sendBeacon(CONFIG.API_URL, new Blob([payload], {type:'text/plain'}));
+        }
+      }catch(e){}
+      if (!sent) post('update', {fields:{clicou_whatsapp:'sim', data_hora_clique_whatsapp: nowIso()}});
+      window.location.href = waLink;
+    });
+  }
+
+  render();
+})();
+</script>
