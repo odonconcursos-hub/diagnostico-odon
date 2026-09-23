@@ -360,7 +360,9 @@ h1,h2,h3,.display{
         'Ainda falta um plano claro de por onde começar.',
         'A falta de rotina pesa mais, agora, do que a falta de conhecimento.'
       ],
-      proximoPasso:'Comece organizando um cronograma simples com as matérias de maior peso do seu edital-alvo.'
+      proximoPasso:'Comece organizando um cronograma simples com as matérias de maior peso do seu edital-alvo.',
+      ctaTexto:'Você está no Nível 1 — e a boa notícia é que dá pra sair dele rápido com o direcionamento certo. Quer um plano feito sob medida pra você começar com o pé direito?',
+      ctaBotao:'💬 Quero meu plano de estudos'
     },
     {min:16, max:30, emoji:'🚀', nome:'Nível 2 — Você já começou, mas ainda está construindo sua estratégia',
       paragrafos:[
@@ -372,7 +374,9 @@ h1,h2,h3,.display{
         'Falta identificar com clareza o que realmente cai nas provas que te interessam.',
         'Revisão e acompanhamento de desempenho ainda não são um sistema — são exceção.'
       ],
-      proximoPasso:'Estruture sua rotina com prioridades claras baseadas no edital que você quer prestar.'
+      proximoPasso:'Estruture sua rotina com prioridades claras baseadas no edital que você quer prestar.',
+      ctaTexto:'Você já começou — mas ainda está montando esse quebra-cabeça sozinho(a). Quer um direcionamento pra parar de estudar no escuro?',
+      ctaBotao:'💬 Quero direcionamento agora'
     },
     {min:31, max:42, emoji:'🎯', nome:'Nível 3 — Você já está no caminho',
       paragrafos:[
@@ -384,7 +388,9 @@ h1,h2,h3,.display{
         'O próximo salto é transformar esforço em direção: saber exatamente onde focar.',
         'Falta um sistema de acompanhamento que aponte seus pontos fracos com precisão.'
       ],
-      proximoPasso:'Implemente um sistema de acompanhamento de desempenho por assunto, não só por simulado.'
+      proximoPasso:'Implemente um sistema de acompanhamento de desempenho por assunto, não só por simulado.',
+      ctaTexto:'Você já está no caminho certo — falta transformar esforço em estratégia. Quer saber como fazer esse ajuste com a gente?',
+      ctaBotao:'💬 Quero ajustar minha estratégia'
     },
     {min:43, max:51, emoji:'🏆', nome:'Nível 4 — Preparação avançada',
       paragrafos:[
@@ -396,7 +402,9 @@ h1,h2,h3,.display{
         'O que separa você da aprovação agora são ajustes finos, não uma reformulação.',
         'Direcionamento específico pra banca/edital pode acelerar bastante o resultado.'
       ],
-      proximoPasso:'Faça ajustes finos: revisão direcionada aos seus pontos fracos e simulados no formato da banca.'
+      proximoPasso:'Faça ajustes finos: revisão direcionada aos seus pontos fracos e simulados no formato da banca.',
+      ctaTexto:'Sua preparação já é avançada — o que falta agora são ajustes finos que podem ser a diferença entre passar ou não. Quer falar com quem já aprovou mais de 500 concurseiros sobre isso?',
+      ctaBotao:'💬 Quero os ajustes finais'
     }
   ];
 
@@ -659,8 +667,8 @@ h1,h2,h3,.display{
 
         '<div class="grid">'+gridHtml+'</div>' +
 
-        '<p class="cta-question">Quer entender como seria essa preparação para o seu caso?</p>' +
-        '<button class="btn btn-whatsapp" id="btnWpp">💬 Falar com o time no WhatsApp</button>' +
+        '<p class="cta-question">'+esc(level.ctaTexto)+'</p>' +
+        '<button class="btn btn-whatsapp" id="btnWpp">'+esc(level.ctaBotao)+'</button>' +
       '</div>';
 
     document.getElementById('btnWpp').addEventListener('click', function(){
